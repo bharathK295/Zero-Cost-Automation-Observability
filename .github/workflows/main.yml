@@ -1,0 +1,65 @@
+name: Hybrid Observability Lab CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  automation-test:
+    # This targets your OCI VM where the runner is installed
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Initialize Hybrid Observability Environment
+        run: |
+          # 1. Clean up any previous "ghost" processes
+          killall Xvfb x11vnc ffmpeg || true
+          
+          # 2. Start Virtual Display (Xvfb)
+          Xvfb :99 -screen 0 1920x1080x24 &
+          export DISPLAY=:99
+          
+          # 3. Start VNC Server for Live Monitoring
+          x11vnc -display :99 -nopw -listen localhost -xkb -forever &
+          
+          # 4. Start FFmpeg Rolling Video Buffer (Records to hidden file)
+          ffmpeg -f x11grab -video_size 1920x1080 -i :99.0 -c:v libx264 -preset ultrafast -f null - &
+          echo "FFMPEG_PID=$!" >> $GITHUB_ENV
+
+      - name: Execute Automation Tests (Headed Mode)
+        env:
+          DISPLAY: :99
+        run: |
+          # Your test command (e.g., Maven or Gradle)
+          mvn test -Dbrowser=chrome -Dheadless=false
+
+      - name: Capture & Clip Failure Video
+        if: failure()
+        run: |
+          # Clip the last 10 seconds of the buffer on failure
+          ffmpeg -y -f x11grab -video_size 1920x1080 -i :99.0 -t 10 failure_replay.mp4
+          
+      - name: Upload Failure Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-video-replay
+          path: failure_replay.mp4
+          retention-days: 5
+
+      - name: Graceful Cleanup
+        if: always()
+        run: |
+          killall Xvfb x11vnc ffmpeg || true
