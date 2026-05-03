@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Hybrid Observability Suite">
+    
+    <!-- This ensures tests run sequentially for stable VNC monitoring -->
+    <test thread-count="1" name="Advanced Interactions Test">
+        <classes>
+            <!-- Replace with your actual package and class name -->
+            <class name="com.bharath.automation.AdvancedInteractionTest"/>
+        </classes>
+    </test>
+</suite>
