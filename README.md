@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/27319137/README.md)
 # Zero-Cost-Automation-Observability
 A high-performance, hybrid CI/CD automation framework designed to solve the "Black Box" problem in headless browser testing. This project utilizes Oracle Cloud Infrastructure (OCI) and GitHub Actions to provide real-time visual monitoring and automated failure replays at zero infrastructure cost.
 
