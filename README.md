@@ -1,6 +1,7 @@
 # Zero-Cost-Automation-Observability
 A high-performance, hybrid CI/CD automation framework designed to solve the "Black Box" problem in headless browser testing. This project utilizes Oracle Cloud Infrastructure (OCI) and GitHub Actions to provide real-time visual monitoring and automated failure replays at zero infrastructure cost.
-**The Innovation: "Headed" Observability in a "Headless" World**
+
+# The Innovation: "Headed" Observability in a "Headless" World
 Standard CI/CD runners often execute tests in a "Black Box," making it nearly impossible to debug UI-specific failures or flaky tests. This framework overcomes that by:
 **Virtual X11 Redirection:** Mapping headless execution to a virtual display buffer.
 
@@ -25,9 +26,7 @@ The Zero-Cost-Automation-Observability lab is built on a high-performance, cloud
 
 **Automated Artifact Generation:** Dynamically clips and uploads the recorded buffer as a .mp4 file only when a TestNG failure is detected, providing 100% visibility into errors.
 
-
-
-**Observability Proof (Execution Results)**
+# Observability Proof (Execution Results)
 The strength of this framework is proven in the GitHub Actions Dashboard, where the infrastructure and observability logic are validated during every run.
 
 **1. CI/CD Pipeline Orchestration**
@@ -40,7 +39,7 @@ When a test fails, the framework automatically extracts a 10-second failure repl
 
 **Note:** Core implementation files (BaseTest.java) and OCI environment configurations are kept private to protect infrastructure security and proprietary logic.
 
-**Advanced Features Demonstrated**
+# Advanced Features Demonstrated
 **JavaScript Executor Integration:** Handling complex UI interactions and element highlighting.
 
 **Synchronization Strategies:** Implementation of Explicit and Fluent Waits to eliminate test flakiness.
